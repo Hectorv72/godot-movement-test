@@ -1,0 +1,86 @@
+[gd_scene load_steps=13 format=3 uid="uid://ywq6g80q8it2"]
+
+[ext_resource type="Texture2D" uid="uid://c4opn75m70ifn" path="res://character/idle.png" id="1_rmaxg"]
+[ext_resource type="Script" path="res://character/playable_character.gd" id="1_t01oq"]
+[ext_resource type="Texture2D" uid="uid://bgukv17jwoebt" path="res://character/moving-forward.png" id="3_b1com"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_35wrw"]
+atlas = ExtResource("1_rmaxg")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ux2st"]
+atlas = ExtResource("1_rmaxg")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_psneg"]
+atlas = ExtResource("1_rmaxg")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pq21i"]
+atlas = ExtResource("1_rmaxg")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w4l24"]
+atlas = ExtResource("3_b1com")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8m3mh"]
+atlas = ExtResource("3_b1com")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bqpvx"]
+atlas = ExtResource("3_b1com")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mpfn0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_35wrw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ux2st")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_psneg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pq21i")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w4l24")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8m3mh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bqpvx")
+}],
+"loop": true,
+"name": &"move_forward",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2ldmn"]
+size = Vector2(30, 38)
+
+[node name="PlayableCharacter" type="CharacterBody2D"]
+script = ExtResource("1_t01oq")
+
+[node name="CharacterSprite" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_mpfn0")
+animation = &"move_forward"
+autoplay = "idle"
+frame_progress = 0.236596
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 13)
+shape = SubResource("RectangleShape2D_2ldmn")
+
+[connection signal="animation_looped" from="CharacterSprite" to="." method="_on_character_sprite_animation_looped"]
