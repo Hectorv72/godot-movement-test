@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 
 const speed = 400
-const acceleration = 10
+const acceleration = 8
 
 var key_is_pressed = false
 var key_x_is_pressed = false
@@ -47,15 +47,17 @@ func _physics_process(delta):
 	
 	if (Input.is_action_pressed("ui_right")):
 		key_x_is_pressed = true
+		if velocity.x < 0: velocity.x = 0
 		character_sprite.play("move_forward")
 		velocity.x = min(velocity.x + acceleration, speed)
 	elif (Input.is_action_pressed("ui_left")):
 		key_x_is_pressed = true
+		if velocity.x > 0: velocity.x = 0
 		character_sprite.play("move_backward")
 		velocity.x = max(velocity.x - acceleration, -speed)
 	else:
 		key_x_is_pressed = false
-		velocity.x = lerp(velocity.x,0.0,0.05)
+		velocity.x = lerp(velocity.x,0.0,0.2)
 	
 	
 	if (Input.is_action_pressed("ui_up")):
@@ -70,7 +72,7 @@ func _physics_process(delta):
 		velocity.y = min(velocity.y + acceleration, speed)
 	else:
 		key_y_is_pressed = false
-		velocity.y = lerp(velocity.y,0.0,0.05)
+		velocity.y = lerp(velocity.y,0.0,0.2)
 	
 	#print(direction)
 	#if(starting_run):
@@ -83,7 +85,6 @@ func _physics_process(delta):
 
 func _on_character_sprite_animation_looped():
 	var animation = character_sprite.animation
-	print(animation)
 	var list_animations = ["move_forward","move_backward","move_up","move_down","forward_decelerate"]
 	if(animation in list_animations):
 		starting_run = true
